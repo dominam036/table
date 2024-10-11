@@ -78,13 +78,37 @@ form.addEventListener("submit", function(e){
         married: marriedValue,
         pet: petValue
     }
-    array.push(newPerson);
-    console.log(array)
-
-    renderTable();
+    if(validateFields(lastName, firstName1, pet)){
+        array.push(newPerson);
+        console.log(array)
+        
+        renderTable();
+    }
 })
 
 renderTable();
+
+function validateFields(lastElement, firstElement, petElement){
+    if(lastElement.value == ""){
+        const lastParent = lastElement.parentElement
+        const lastError = lastParent.querySelector(".error");
+        lastError.innerHTML = "Kötelező"
+        return false
+    }
+    if(firstElement.value == ""){
+        const firstParent = firstElement.parentElement
+        const firstError = firstParent.querySelector(".error");
+        firstError.innerHTML = "Kötelező"
+        return false
+    }
+    if(petElement.value == ""){
+        const petParent = petElement.parentElement
+        const petError = petParent.querySelector(".error");
+        petError.innerHTML = "Kötelező"
+        return false
+    }
+    return true
+}
 
 function renderTable(){
     tbody.innerHTML = '';
