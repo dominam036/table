@@ -32,25 +32,17 @@ let array = [
 const table = document.createElement("table");
 const thead = document.createElement("thead");
 const tr_head = document.createElement("tr");
-const th_lastname = document.createElement("th");
-const th_firstname = document.createElement("th");
-const th_hazas = document.createElement("th");
-const th_pet = document.createElement("th");
 const tbody = document.createElement("tbody");
 
 document.body.appendChild(table);
 table.appendChild(thead);
 thead.appendChild(tr_head);
-tr_head.appendChild(th_lastname);
-tr_head.appendChild(th_firstname);
-tr_head.appendChild(th_pet);
-tr_head.appendChild(th_hazas);
 table.appendChild(tbody);
 
-th_lastname.innerHTML = "Vezeténév";
-th_firstname.innerHTML = "Keresztnév";
-th_hazas.innerHTML = "Married";
-th_pet.innerHTML = "Pet";
+const th_lastname = createTableCell("th", "Lastname", tr_head);
+const th_firstname = createTableCell("th", "Firstname", tr_head);
+const th_pet = createTableCell("th", "Pet", tr_head);
+const th_married = createTableCell("th", "Married", tr_head);
 th_firstname.colSpan = 2;
 
 const form = document.getElementById("form");
@@ -151,4 +143,17 @@ function renderTable(){
             tr_body.appendChild(td_married);
         }
     }
+}
+
+/**
+ * 
+ * @param {td-th} type 
+ * @param {string} inner 
+ * @param {HTMLTableRowElement} parent 
+ */
+function createTableCell(type, inner, parent){
+    const temporary = document.createElement(type);
+    temporary.innerHTML = inner;
+    parent.appendChild(temporary);
+    return temporary
 }
