@@ -106,21 +106,14 @@ function validateFields(lastElement, firstElement, petElement){
 function renderTable(){
     tbody.innerHTML = '';
     for(const pers of array){
-        const tr_body = document.createElement("tr");
-        tbody.appendChild(tr_body);
-        const td_lastname = document.createElement("td");
-        td_lastname.innerHTML = pers.lastname;
-        tr_body.appendChild(td_lastname);
-        const td_firstname1 = document.createElement("td");
-        td_firstname1.innerHTML = pers.firstname1;
-        tr_body.appendChild(td_firstname1);
+        const tr_body = createTableCell("tr", "", tbody);
+        const td_lastname = createTableCell("td", pers.lastname, tr_body);
+        const td_firstname1 = createTableCell("td", pers.firstname1, tr_body);
 
         if(pers.firstname2 === undefined){
             td_firstname1.colSpan = 2;
         }else{
-            const td_firstname2 = document.createElement("td");
-            td_firstname2.innerHTML = pers.firstname2;
-            tr_body.appendChild(td_firstname2);
+            const td_firstname2 = createTableCell("td", pers.firstname2, tr_body);
         }
         tr_body.addEventListener("click", function(e){
             console.log("clicked");
@@ -130,17 +123,11 @@ function renderTable(){
             }
             e.currentTarget.classList.add("selected");
         });
-        const td_pet = document.createElement("td");
-        td_pet.innerHTML = pers.pet;
-        tr_body.appendChild(td_pet);
+        const td_pet = createTableCell("td", pers.pet, tr_body);
         if(pers.married == true){
-            const td_married = document.createElement("td");
-            td_married.innerHTML = "Igaz";
-            tr_body.appendChild(td_married);
+            const td_married = createTableCell("td", "Igaz", tr_body);
         }else{
-            const td_married = document.createElement("td");
-            td_married.innerHTML = "Hamis";
-            tr_body.appendChild(td_married);
+            const td_married = createTableCell("td", "Hamis", tr_body);
         }
     }
 }
