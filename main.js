@@ -28,22 +28,13 @@ let array = [
     },
 ]
 
+createHTMLElement("table", "persontable", document.body);
+createHTMLElementWithParentID("thead", "personthead", "persontable");
+createHTMLElementWithParentID("tr", "persontr", "personthead");
+createHTMLElementWithParentID("tbody", "persontbody", "persontable");
 
-const table = document.createElement("table");
-const thead = document.createElement("thead");
-const tr_head = document.createElement("tr");
-const tbody = document.createElement("tbody");
-
-document.body.appendChild(table);
-table.appendChild(thead);
-thead.appendChild(tr_head);
-table.appendChild(tbody);
-
-const th_lastname = createTableCell("th", "Lastname", tr_head);
-const th_firstname = createTableCell("th", "Firstname", tr_head);
-const th_pet = createTableCell("th", "Pet", tr_head);
-const th_married = createTableCell("th", "Married", tr_head);
-th_firstname.colSpan = 2;
+createTableHeaderCell("persontr");
+renderTable(array);
 
 const form = document.getElementById("form");
 form.addEventListener("submit", function(e){
@@ -74,12 +65,11 @@ form.addEventListener("submit", function(e){
         array.push(newPerson);
         console.log(array)
         
-        renderTable();
+        renderTable(array);
         form.reset();
     }
 })
 
-renderTable();
 
 function validateFields(lastElement, firstElement, petElement){
     let result = true
@@ -102,46 +92,4 @@ function validateFields(lastElement, firstElement, petElement){
         result = false
     }
     return result
-}
-
-function renderTable(){
-    tbody.innerHTML = '';
-    for(const pers of array){
-        const tr_body = createTableCell("tr", "", tbody);
-        const td_lastname = createTableCell("td", pers.lastname, tr_body);
-        const td_firstname1 = createTableCell("td", pers.firstname1, tr_body);
-
-        if(pers.firstname2 === undefined){
-            td_firstname1.colSpan = 2;
-        }else{
-            const td_firstname2 = createTableCell("td", pers.firstname2, tr_body);
-        }
-        tr_body.addEventListener("click", function(e){
-            console.log("clicked");
-            const select = tbody.querySelector(".selected");
-            if( select != undefined){
-                select.classList.remove("selected");
-            }
-            e.currentTarget.classList.add("selected");
-        });
-        const td_pet = createTableCell("td", pers.pet, tr_body);
-        if(pers.married == true){
-            const td_married = createTableCell("td", "Igaz", tr_body);
-        }else{
-            const td_married = createTableCell("td", "Hamis", tr_body);
-        }
-    }
-}
-
-/**
- * 
- * @param {td-th} type 
- * @param {string} inner 
- * @param {HTMLTableRowElement} parent 
- */
-function createTableCell(type, inner, parent){
-    const temporary = document.createElement(type);
-    temporary.innerHTML = inner;
-    parent.appendChild(temporary);
-    return temporary
 }
