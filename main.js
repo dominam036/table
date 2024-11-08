@@ -28,68 +28,30 @@ let array = [
     },
 ]
 
-createHTMLElement("table", "persontable", document.body);
-createHTMLElementWithParentID("thead", "personthead", "persontable");
-createHTMLElementWithParentID("tr", "persontr", "personthead");
-createHTMLElementWithParentID("tbody", "persontbody", "persontable");
+createHTMLElement("table", "persontable", document.body); // A table létrehozása
+createHTMLElementWithParentID("thead", "personthead", "persontable"); // A tablehead létrehozása
+createHTMLElementWithParentID("tbody", "persontbody", "persontable"); // A tablebody létrehozása
+createHTMLElementWithParentID("tr", "persontr", "personthead"); // A tablerow létrehozása
 
-createTableHeaderCell("persontr");
-renderTable(array);
+createTableHeaderCell("persontr"); // A tableheader elemeinek létrehozása
+renderTable(array); // A table renderelése
 
-const form = document.getElementById("form");
-form.addEventListener("submit", function(e){
-    e.preventDefault();
-    const lastName = document.getElementById("lastname");
-    const firstName1 = document.getElementById("firstname1");
-    const firstName2 = document.getElementById("firstname2");
-    const married = document.getElementById("married");
-    const pet = document.getElementById("pet");
+document.getElementById("form").addEventListener("submit", function(e){ // Eseménykezelő létrehozása a "form"-hoz
+    e.preventDefault(); // Megakadályozzuk az űrlap alapértelmezett elküldését
+    const form = e.currentTarget; // Az aktuális űrlap elemeinek lekérése
 
-    const lastNameValue = lastName.value;
-    const firstName1Value = firstName1.value;
-    let firstName2Value = firstName2.value;
-    const marriedValue = married.checked;
-    const petValue = pet.value;
-
-    if(firstName2Value === ""){
-            firstName2Value = undefined;
-    }
-    const newPerson = {
-        firstname1: firstName1Value,
-        firstname2: firstName2Value,
-        lastname: lastNameValue,
-        married: marriedValue,
-        pet: petValue
-    }
-    if(validateFields(lastName, firstName1, pet)){
-        array.push(newPerson);
+    const newPerson = { // Az új szmély létrehozása és az elemeinek megadása
+        firstname1: document.getElementById("firstname1").value,
+        firstname2: document.getElementById("firstname2").value,
+        lastname: document.getElementById("lastname").value,
+        married: document.getElementById("married").value,
+        pet: document.getElementById("pet").value
+    };
+    if(validateFields("lastname", "firstname1", "pet")){ // A validálás eredményeinek lekérése
+        array.push(newPerson); // Az új személy hozzáadása az array-hoz
         console.log(array)
-        
-        renderTable(array);
-        form.reset();
-    }
-})
-
-
-function validateFields(lastElement, firstElement, petElement){
-    let result = true
-    if(lastElement.value == ""){
-        const lastParent = lastElement.parentElement
-        const lastError = lastParent.querySelector(".error");
-        lastError.innerHTML = "Kötelező"
-        result = false
-    }
-    if(firstElement.value == ""){
-        const firstParent = firstElement.parentElement
-        const firstError = firstParent.querySelector(".error");
-        firstError.innerHTML = "Kötelező"
-        result = false
-    }
-    if(petElement.value == ""){
-        const petParent = petElement.parentElement
-        const petError = petParent.querySelector(".error");
-        petError.innerHTML = "Kötelező"
-        result = false
-    }
-    return result
+        renderTable(array); // A tábla újrarenderelése az új elemmel együtt
+        form.reset(); // A form Elemeinek reset-elése
+    };
 }
+);
